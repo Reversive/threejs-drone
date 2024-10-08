@@ -1,10 +1,11 @@
-import { Scene, PerspectiveCamera, WebGLRenderer} from "three"
+import { Scene, PerspectiveCamera, WebGLRenderer, DirectionalLight, AxesHelper, PlaneGeometry, MeshPhongMaterial, Mesh} from "three"
 import { OrbitControls } from "three/examples/jsm/Addons.js"
 import PropellerCasquet from "./models/pieces/revolution/propeller_casquet"
 import HelixAxle from "./models/pieces/revolution/helix_axle"
 import BodySupport from "./models/pieces/revolution/body_support"
 import HelixArm from "./models/pieces/revolution/helix_arm"
-
+import BodyNose from "./models/pieces/convex/body_nose"
+import BodyFuselage from "./models/pieces/extrusion/body_fuselage"
 /*
 ** Scene of the project 
 */
@@ -35,6 +36,18 @@ scene.add(bodySupport)
 const helixArm = new HelixArm({x: 0, y: 2, z: 0, innerRadius: 0.1, outerRadius: 0.20, height: 0.85, color: 0xff0000});
 scene.add(helixArm)
 
+const bodyNose = new BodyNose({x: 0, y: 0, z: 2, color: 0x80DAEB});
+scene.add(bodyNose);
+
+const bodyFuselage = new BodyFuselage({x: 0, y: 0, z: 0, color: 0x80DAEB, depth: 2});
+scene.add(bodyFuselage);
+
+const directionalLight = new DirectionalLight(0xffffff, 1)
+directionalLight.position.z = 3
+
+directionalLight.lookAt(bodyFuselage.position);
+
+scene.add(directionalLight)
 
 function animate() {
     requestAnimationFrame(animate)
